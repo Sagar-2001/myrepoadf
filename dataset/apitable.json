@@ -1,0 +1,25 @@
+{
+	"name": "apitable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "mysqlstorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tableapi": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().tableapi",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

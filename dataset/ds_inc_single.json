@@ -1,0 +1,13 @@
+{
+	"name": "ds_inc_single",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "mysqlstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

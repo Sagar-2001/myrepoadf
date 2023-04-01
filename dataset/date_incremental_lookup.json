@@ -1,0 +1,13 @@
+{
+	"name": "date_incremental_lookup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azuresqllink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

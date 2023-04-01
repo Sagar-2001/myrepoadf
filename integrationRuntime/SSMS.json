@@ -1,0 +1,6 @@
+{
+	"name": "SSMS",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

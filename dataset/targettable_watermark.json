@@ -1,0 +1,25 @@
+{
+	"name": "targettable_watermark",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azuresqllink",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tablename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "sagar",
+			"table": {
+				"value": "@split(dataset().tablename,'.')[1]",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

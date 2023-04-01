@@ -1,0 +1,17 @@
+{
+	"name": "json_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azuresqllink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "sagar",
+			"table": "json_table"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

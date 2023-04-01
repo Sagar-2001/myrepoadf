@@ -1,0 +1,42 @@
+{
+	"name": "sql_sales_sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "mysqlstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SalesDate",
+				"type": "date"
+			},
+			{
+				"name": "ProductId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Rate",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Qty",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Sales",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "sales_sink"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

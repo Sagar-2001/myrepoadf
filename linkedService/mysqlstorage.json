@@ -1,0 +1,12 @@
+{
+	"name": "mysqlstorage",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=oceanbender.database.windows.net;initial catalog=mydatabasetrainer;user id=oceanbender",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDY0NjEyNkEyLUE3MTUtNEVBNy1CNEE3LUFBQzZBMzc0MThFRF80MjEyMDAyNi1iNjg0LTQ4MmQtODc3NC1mMTU0M2ViMjQ1NDIiDQp9"
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "apisingle",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "mysqlstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "api"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

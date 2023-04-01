@@ -1,0 +1,17 @@
+{
+	"name": "table_from_blob",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "mysqlstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "sagar",
+			"table": "email"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

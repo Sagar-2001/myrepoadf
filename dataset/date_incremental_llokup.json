@@ -1,0 +1,13 @@
+{
+	"name": "date_incremental_llokup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "MYSQLSSMS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

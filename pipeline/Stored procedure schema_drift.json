@@ -1,0 +1,40 @@
+{
+	"name": "Stored procedure schema_drift",
+	"properties": {
+		"activities": [
+			{
+				"name": "Stored procedure schema_drift",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[SchemaValidation]",
+					"storedProcedureParameters": {
+						"sourceTable": {
+							"value": "dbo.table1",
+							"type": "String"
+						},
+						"targetTable": {
+							"value": "dbo.table2",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "mysqlstorage",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-04-01T13:38:10Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

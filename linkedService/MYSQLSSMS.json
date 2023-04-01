@@ -1,0 +1,16 @@
+{
+	"name": "MYSQLSSMS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=oceanbender.database.windows.net;initial catalog=mydatabasetrainer;user id=oceanbender",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1MDUxMWMwNi1jYzFkLTRjYjItYmVkYS05MTY0OWI3ZDY2MzYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "SSMS",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

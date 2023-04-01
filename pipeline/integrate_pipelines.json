@@ -1,0 +1,63 @@
+{
+	"name": "integrate_pipelines",
+	"properties": {
+		"activities": [
+			{
+				"name": "cust_mstr",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "102_first",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "export_second",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "cust_mstr",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "102_second",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "h_com_third",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "export_second",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "102_third",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-03-28T11:29:57Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
