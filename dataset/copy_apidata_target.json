@@ -1,0 +1,12 @@
+{
+	"name": "copy_apidata_target",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azuresqllink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}

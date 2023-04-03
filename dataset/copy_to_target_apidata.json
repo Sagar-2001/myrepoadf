@@ -1,0 +1,45 @@
+{
+	"name": "copy_to_target_apidata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "mysqlstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Email",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Image",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastLogin",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Role",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Status",
+				"type": "bit"
+			},
+			{
+				"name": "id",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "sagar",
+			"table": "getallusers"
+		}
+	}
+}
