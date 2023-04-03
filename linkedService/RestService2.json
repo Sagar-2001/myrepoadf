@@ -1,0 +1,23 @@
+{
+	"name": "RestService2",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://uers-api.p.rapidapi.com/api/users",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous",
+			"authHeaders": {
+				"X-RapidAPI-Key": {
+					"type": "SecureString",
+					"value": "**********"
+				},
+				"X-RapidAPI-Host": {
+					"type": "SecureString",
+					"value": "**********"
+				}
+			}
+		}
+	}
+}
