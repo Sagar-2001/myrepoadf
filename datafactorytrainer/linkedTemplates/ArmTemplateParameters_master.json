@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "datafactorytrainer"
+		},
+		"MYSQLSSMS_connectionString": {
+			"value": ""
+		},
+		"azuresqllink_connectionString": {
+			"value": ""
+		},
+		"myblobstorage_connectionString": {
+			"value": ""
+		},
+		"mysqlstorage_connectionString": {
+			"value": ""
+		},
+		"RestService1_properties_typeProperties_url": {
+			"value": "@{linkedService().apiurl}"
+		},
+		"RestService2_properties_typeProperties_url": {
+			"value": "https://uers-api.p.rapidapi.com/api/users"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
