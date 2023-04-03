@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "api_to_table_copy",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -109,11 +109,11 @@
 				]
 			},
 			{
-				"name": "Stored procedure1",
+				"name": "check_schema_drift",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "api_to_table_copy",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -146,11 +146,11 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "data_of_source_table",
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Stored procedure1",
+						"activity": "check_schema_drift",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -178,11 +178,11 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "move_each_data_from_source",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "data_of_source_table",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -191,13 +191,13 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup1').output.value",
+						"value": "@activity('data_of_source_table').output.value",
 						"type": "Expression"
 					},
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy data2",
+							"name": "perform_fullload_incremental",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
