@@ -218,6 +218,14 @@
 				}
 			}
 		],
+		"parameters": {
+			"Tablename": {
+				"type": "string"
+			},
+			"WaterMarkColumn": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
