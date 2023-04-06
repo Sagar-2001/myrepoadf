@@ -1,13 +1,6 @@
 {
 	"name": "RestResource1",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "RestService1",
-			"type": "LinkedServiceReference",
-			"parameters": {
-				"apiurl": "https://reqres.in/api/users"
-			}
-		},
 		"parameters": {
 			"pagequery": {
 				"type": "string"

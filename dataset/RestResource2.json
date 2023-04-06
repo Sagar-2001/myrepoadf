@@ -1,13 +1,6 @@
 {
 	"name": "RestResource2",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "RestService1",
-			"type": "LinkedServiceReference",
-			"parameters": {
-				"apiurl": "https://api.github.com/users/hadley/orgs"
-			}
-		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
