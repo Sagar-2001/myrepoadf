@@ -1,0 +1,16 @@
+{
+	"name": "leonprimetarget",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=OCEANBENDER;initial catalog=target;user id=sagarssms",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIwMDM2MTlkMC0xNTFmLTQzNjItOWE2Zi0zMGNkNjE5NTE5ZmQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "SSMS",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
