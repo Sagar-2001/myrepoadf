@@ -1,0 +1,6 @@
+{
+	"name": "ONPREMISES",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
