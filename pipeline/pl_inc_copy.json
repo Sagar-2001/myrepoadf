@@ -18,7 +18,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "select tablename,watermarkvalue from dbo.watermark where tablename='Purchase'",
+							"value": "select tablename,watermarkvalue from dbo.watermark where tablename='@{pipeline().parameters.Tablename}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -46,7 +46,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "select max(PurchaseDate) as NewWaterMarkValue from dbo.Purchase",
+						"sqlReaderQuery": {
+							"value": "select max(@{pipeline().parameters.WaterMarkColumn}) as NewWaterMarkValue from @{pipeline().parameters.Tablename}",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -86,7 +89,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "select PurchaseID,ProductName,Price,PurchaseDate from dbo.Purchase \nwhere PurchaseDate>'@{activity('lkp_oldwatermarkvalue').output.firstRow.watermarkvalue}'\nand PurchaseDate <='@{activity('lkp_newwatermarkvalue').output.firstRow.newwatermarkvalue}'",
+							"value": "select * from @{pipeline().parameters.Tablename}\nwhere @{pipeline().parameters.WaterMarkColumn}>'@{activity('lkp_oldwatermarkvalue').output.firstRow.watermarkvalue}'\nand @{pipeline().parameters.WaterMarkColumn} <='@{activity('lkp_newwatermarkvalue').output.firstRow.newwatermarkvalue}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -170,7 +173,13 @@
 				"outputs": [
 					{
 						"referenceName": "DB_SQL_SINK",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"tablename": {
+								"value": "@pipeline().parameters.Tablename",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			},
@@ -220,10 +229,12 @@
 		],
 		"parameters": {
 			"Tablename": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Purchase"
 			},
 			"WaterMarkColumn": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "PurchaseDate"
 			}
 		},
 		"annotations": []
