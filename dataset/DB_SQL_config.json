@@ -1,0 +1,25 @@
+{
+	"name": "DB_SQL_config",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "leonprimetarget",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "tablename",
+				"type": "varchar"
+			},
+			{
+				"name": "watermarkvalue",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "configtable"
+		}
+	}
+}
