@@ -1,0 +1,16 @@
+{
+	"name": "CFG_DATA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SSMS_STUDENT",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "config"
+		}
+	}
+}

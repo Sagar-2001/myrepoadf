@@ -1,0 +1,16 @@
+{
+	"name": "SqlServerTable_fullstudent",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SSMS_STUDENT",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Customer"
+		}
+	}
+}

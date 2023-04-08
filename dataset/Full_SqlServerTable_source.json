@@ -1,0 +1,12 @@
+{
+	"name": "Full_SqlServerTable_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lsonprimesource",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
