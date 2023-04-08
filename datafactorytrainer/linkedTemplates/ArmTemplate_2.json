@@ -10,6 +10,18 @@
 		"MYSQLSSMS_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'MYSQLSSMS'"
+		},
+		"SSMS_STUDENT_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SSMS_STUDENT'"
+		},
+		"leonprimetarget_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'leonprimetarget'"
+		},
+		"lsonprimesource_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'lsonprimesource'"
 		}
 	},
 	"variables": {
@@ -441,6 +453,57 @@
 				"type": "SqlServer",
 				"typeProperties": {
 					"connectionString": "[parameters('MYSQLSSMS_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "SSMS",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SSMS_STUDENT')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SSMS_STUDENT_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "SSMS",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/leonprimetarget')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('leonprimetarget_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "SSMS",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/lsonprimesource')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('lsonprimesource_connectionString')]"
 				},
 				"connectVia": {
 					"referenceName": "SSMS",
@@ -1208,207 +1271,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Api_single')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET",
-								"paginationRules": {
-									"supportRFC5988": "true"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['login']"
-										},
-										"sink": {
-											"name": "login"
-										}
-									},
-									{
-										"source": {
-											"path": "$['id']"
-										},
-										"sink": {
-											"name": "id"
-										}
-									},
-									{
-										"source": {
-											"path": "$['node_id']"
-										},
-										"sink": {
-											"name": "node_id"
-										}
-									},
-									{
-										"source": {
-											"path": "$['url']"
-										},
-										"sink": {
-											"name": "url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['repos_url']"
-										},
-										"sink": {
-											"name": "repos_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['events_url']"
-										},
-										"sink": {
-											"name": "events_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['hooks_url']"
-										},
-										"sink": {
-											"name": "hooks_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['issues_url']"
-										},
-										"sink": {
-											"name": "issues_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['members_url']"
-										},
-										"sink": {
-											"name": "members_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['public_members_url']"
-										},
-										"sink": {
-											"name": "public_members_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['avatar_url']"
-										},
-										"sink": {
-											"name": "avatar_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['description']"
-										},
-										"sink": {
-											"name": "description"
-										}
-									}
-								],
-								"collectionReference": "$['data']"
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "RestResource2",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "apisingle",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Stored procedure1",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "Copy data1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[SchemaValidation]",
-							"storedProcedureParameters": {
-								"sourceTable": {
-									"value": "dbo.api",
-									"type": "String"
-								},
-								"targetTable": {
-									"value": "dbo.api_sink",
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "mysqlstorage",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-03-30T20:00:55Z"
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/array_to_string_email')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1518,205 +1380,6 @@
 				"lastPublishTime": "2023-03-29T20:32:37Z"
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/array_to_string_email_join')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "get_email_files",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"dataset": {
-								"referenceName": "email_csv",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "get_email_files",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('get_email_files').output.value",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Append variable1",
-									"type": "AppendVariable",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "emailtemp",
-										"value": {
-											"value": "@item().Login_email",
-											"type": "Expression"
-										}
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "Set variable2",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "ForEach1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "email",
-							"value": {
-								"value": "@join(variables('emailtemp'),' ' )",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"variables": {
-					"email": {
-						"type": "String"
-					},
-					"emailtemp": {
-						"type": "Array"
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-03-29T20:40:01Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/copy_dat_blob_to_SQL')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"additionalColumns": [
-									{
-										"name": "date",
-										"value": {
-											"value": "@utcnow()",
-											"type": "Expression"
-										}
-									}
-								],
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "csv_to_other",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "table_from_blob",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"variables": {
-					"x": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-03-22T20:37:19Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/table_from_blob')]"
-			]
 		}
 	]
 }

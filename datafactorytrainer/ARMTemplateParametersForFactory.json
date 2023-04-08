@@ -8,7 +8,16 @@
 		"MYSQLSSMS_connectionString": {
 			"value": ""
 		},
+		"SSMS_STUDENT_connectionString": {
+			"value": ""
+		},
 		"azuresqllink_connectionString": {
+			"value": ""
+		},
+		"leonprimetarget_connectionString": {
+			"value": ""
+		},
+		"lsonprimesource_connectionString": {
 			"value": ""
 		},
 		"myblobstorage_connectionString": {
@@ -16,9 +25,6 @@
 		},
 		"mysqlstorage_connectionString": {
 			"value": ""
-		},
-		"RestService1_properties_typeProperties_url": {
-			"value": "@{linkedService().apiurl}"
 		},
 		"RestService2_properties_typeProperties_url": {
 			"value": "https://uers-api.p.rapidapi.com/api/users"

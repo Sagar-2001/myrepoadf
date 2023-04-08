@@ -11,9 +11,21 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'MYSQLSSMS'"
 		},
+		"SSMS_STUDENT_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SSMS_STUDENT'"
+		},
 		"azuresqllink_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'azuresqllink'"
+		},
+		"leonprimetarget_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'leonprimetarget'"
+		},
+		"lsonprimesource_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'lsonprimesource'"
 		},
 		"myblobstorage_connectionString": {
 			"type": "secureString",
@@ -22,10 +34,6 @@
 		"mysqlstorage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'mysqlstorage'"
-		},
-		"RestService1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "@{linkedService().apiurl}"
 		},
 		"RestService2_properties_typeProperties_url": {
 			"type": "string",
@@ -800,211 +808,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Api_single')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET",
-								"paginationRules": {
-									"supportRFC5988": "true"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['login']"
-										},
-										"sink": {
-											"name": "login"
-										}
-									},
-									{
-										"source": {
-											"path": "$['id']"
-										},
-										"sink": {
-											"name": "id"
-										}
-									},
-									{
-										"source": {
-											"path": "$['node_id']"
-										},
-										"sink": {
-											"name": "node_id"
-										}
-									},
-									{
-										"source": {
-											"path": "$['url']"
-										},
-										"sink": {
-											"name": "url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['repos_url']"
-										},
-										"sink": {
-											"name": "repos_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['events_url']"
-										},
-										"sink": {
-											"name": "events_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['hooks_url']"
-										},
-										"sink": {
-											"name": "hooks_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['issues_url']"
-										},
-										"sink": {
-											"name": "issues_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['members_url']"
-										},
-										"sink": {
-											"name": "members_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['public_members_url']"
-										},
-										"sink": {
-											"name": "public_members_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['avatar_url']"
-										},
-										"sink": {
-											"name": "avatar_url"
-										}
-									},
-									{
-										"source": {
-											"path": "$['description']"
-										},
-										"sink": {
-											"name": "description"
-										}
-									}
-								],
-								"collectionReference": "$['data']"
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "RestResource2",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "apisingle",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Stored procedure1",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "Copy data1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[SchemaValidation]",
-							"storedProcedureParameters": {
-								"sourceTable": {
-									"value": "dbo.api",
-									"type": "String"
-								},
-								"targetTable": {
-									"value": "dbo.api_sink",
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "mysqlstorage",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-03-30T20:00:55Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/RestResource2')]",
-				"[concat(variables('factoryId'), '/datasets/apisingle')]",
-				"[concat(variables('factoryId'), '/linkedServices/mysqlstorage')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Stored procedure schema_drift')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1050,6 +853,449 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/mysqlstorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/all_in_one')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup_cfg",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select * from dbo.config where enabled=1",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "CFG_DATA",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "filter_target_db",
+						"type": "Filter",
+						"dependsOn": [
+							{
+								"activity": "Lookup_cfg",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup_cfg').output.value",
+								"type": "Expression"
+							},
+							"condition": {
+								"value": "@equals(item().source,'target')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Filter_student_db",
+						"type": "Filter",
+						"dependsOn": [
+							{
+								"activity": "Lookup_cfg",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup_cfg').output.value",
+								"type": "Expression"
+							},
+							"condition": {
+								"value": "@equals(item().source,'student')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "filter_target_db",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('filter_target_db').output.value",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@bool(equals(item().Load_Flag,'Incremental'))",
+											"type": "Expression"
+										},
+										"ifFalseActivities": [
+											{
+												"name": "Copy_updateFull Data",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "SqlServerSource",
+														"sqlReaderQuery": {
+															"value": "select * from @{item().source_Table}",
+															"type": "Expression"
+														},
+														"queryTimeout": "02:00:00",
+														"partitionOption": "None"
+													},
+													"sink": {
+														"type": "SqlServerSink",
+														"writeBehavior": "insert",
+														"sqlWriterUseTableLock": false
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "Full_SqlServerTable_source",
+														"type": "DatasetReference",
+														"parameters": {}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DB_SQL_SINK",
+														"type": "DatasetReference",
+														"parameters": {
+															"tablename": {
+																"value": "@{item().Dest_Table}",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										],
+										"ifTrueActivities": [
+											{
+												"name": "GetMaxLastUpdateDate CFG",
+												"type": "Lookup",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "SqlServerSource",
+														"sqlReaderQuery": {
+															"value": "select watermark_value from dbo.config \nwhere source_Table like '@{item().source_Table}'",
+															"type": "Expression"
+														},
+														"queryTimeout": "02:00:00",
+														"partitionOption": "None"
+													},
+													"dataset": {
+														"referenceName": "CFG_DATA",
+														"type": "DatasetReference",
+														"parameters": {}
+													}
+												}
+											},
+											{
+												"name": "Copy data to target table",
+												"type": "Copy",
+												"dependsOn": [
+													{
+														"activity": "GetMaxLastUpdateDate CFG",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "SqlServerSource",
+														"sqlReaderQuery": {
+															"value": "select * from @{item().source_Table}\n where \nconvert(datetime,@{item().watermark_column},105)>\nconvert(datetime,substring(replace('@{activity('GetMaxLastUpdateDate CFG').output.firstRow.watermark_value}','T',''),0,20),120)",
+															"type": "Expression"
+														},
+														"queryTimeout": "02:00:00",
+														"partitionOption": "None"
+													},
+													"sink": {
+														"type": "SqlServerSink",
+														"writeBehavior": "insert",
+														"sqlWriterUseTableLock": false
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "SqlServerTable_source",
+														"type": "DatasetReference",
+														"parameters": {}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DB_SQL_SINK",
+														"type": "DatasetReference",
+														"parameters": {
+															"tablename": {
+																"value": "@{item().Dest_Table}",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											},
+											{
+												"name": "Stored procedure1",
+												"type": "SqlServerStoredProcedure",
+												"dependsOn": [
+													{
+														"activity": "Copy data to target table",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"storedProcedureName": "[[dbo].[sp_set_water]"
+												},
+												"linkedServiceName": {
+													"referenceName": "leonprimetarget",
+													"type": "LinkedServiceReference"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "update_cfg_status",
+									"type": "Lookup",
+									"dependsOn": [
+										{
+											"activity": "If Condition1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"sqlReaderQuery": {
+												"value": "update config\nset status='Succeded'\nwhere Dest_Table='@{item().Dest_Table}'\n\nselect 1",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "CFG_DATA",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Filter_student_db",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SqlServerTable_full_student",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SqlServerTable_fullstudent",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Lookup2",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": {
+									"value": "update config\nset status='Succeded'\nwhere Dest_Table='dbo.customer'\n\nselect 1",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "CFG_DATA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Tablename": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/CFG_DATA')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable_full_student')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable_fullstudent')]",
+				"[concat(variables('factoryId'), '/datasets/Full_SqlServerTable_source')]",
+				"[concat(variables('factoryId'), '/datasets/DB_SQL_SINK')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable_source')]",
+				"[concat(variables('factoryId'), '/linkedServices/leonprimetarget')]"
 			]
 		},
 		{
@@ -3098,14 +3344,14 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/rest_api_copy_table')]",
+			"name": "[concat(parameters('factoryName'), '/pl_inc_copy')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "api_to_table_copy",
-						"type": "Copy",
+						"name": "lkp_oldwatermarkvalue",
+						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -3117,111 +3363,26 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET",
-								"paginationRules": {
-									"supportRFC5988": "true"
-								}
+								"type": "SqlServerSource",
+								"sqlReaderQuery": {
+									"value": "select tablename,watermarkvalue from dbo.watermark where tablename='@{pipeline().parameters.Tablename}'",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "[['Email']"
-										},
-										"sink": {
-											"name": "Email"
-										}
-									},
-									{
-										"source": {
-											"path": "[['Image']"
-										},
-										"sink": {
-											"name": "Image"
-										}
-									},
-									{
-										"source": {
-											"path": "[['LastLogin']"
-										},
-										"sink": {
-											"name": "LastLogin"
-										}
-									},
-									{
-										"source": {
-											"path": "[['Name']"
-										},
-										"sink": {
-											"name": "Name"
-										}
-									},
-									{
-										"source": {
-											"path": "[['Role']"
-										},
-										"sink": {
-											"name": "Role"
-										}
-									},
-									{
-										"source": {
-											"path": "[['Status']"
-										},
-										"sink": {
-											"name": "Status"
-										}
-									},
-									{
-										"source": {
-											"path": "[['id']"
-										},
-										"sink": {
-											"name": "id"
-										}
-									}
-								],
-								"collectionReference": "$['data']"
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "RestResource3",
+							"dataset": {
+								"referenceName": "DS_SQL_target",
 								"type": "DatasetReference",
 								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+							},
+							"firstRowOnly": true
+						}
 					},
 					{
-						"name": "check_schema_drift",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "api_to_table_copy",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"name": "lkp_newwatermarkvalue",
+						"type": "Lookup",
+						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -3231,29 +3392,35 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"storedProcedureName": "[[dbo].[SchemaValidation]",
-							"storedProcedureParameters": {
-								"sourceTable": {
-									"value": "getallusers_target",
-									"type": "String"
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": {
+									"value": "select max(@{pipeline().parameters.WaterMarkColumn}) as NewWaterMarkValue from @{pipeline().parameters.Tablename}",
+									"type": "Expression"
 								},
-								"targetTable": {
-									"value": "getallusers",
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "mysqlstorage",
-							"type": "LinkedServiceReference"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_SQL_SOURCE",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": true
 						}
 					},
 					{
-						"name": "data_of_source_table",
-						"type": "Lookup",
+						"name": "Copy data1",
+						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "check_schema_drift",
+								"activity": "lkp_oldwatermarkvalue",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "lkp_newwatermarkvalue",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -3269,12 +3436,142 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "AzureSqlSource",
+								"type": "SqlServerSource",
+								"sqlReaderQuery": {
+									"value": "select * from @{pipeline().parameters.Tablename}\nwhere @{pipeline().parameters.WaterMarkColumn}>'@{activity('lkp_oldwatermarkvalue').output.firstRow.watermarkvalue}'\nand @{pipeline().parameters.WaterMarkColumn} <='@{activity('lkp_newwatermarkvalue').output.firstRow.newwatermarkvalue}'",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SQL_SOURCE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DB_SQL_SINK",
+								"type": "DatasetReference",
+								"parameters": {
+									"tablename": {
+										"value": "@pipeline().parameters.Tablename",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "SP_setwatermark",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[sp_set_water]",
+							"storedProcedureParameters": {
+								"newtime": {
+									"value": {
+										"value": "@activity('lkp_newwatermarkvalue').output.firstRow.NewWaterMarkValue",
+										"type": "Expression"
+									},
+									"type": "DateTime"
+								},
+								"tablename": {
+									"value": {
+										"value": "@activity('lkp_oldwatermarkvalue').output.firstRow.tablename",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "leonprimetarget",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Tablename": {
+						"type": "string",
+						"defaultValue": "Purchase"
+					},
+					"WaterMarkColumn": {
+						"type": "string",
+						"defaultValue": "PurchaseDate"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_target')]",
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_SOURCE')]",
+				"[concat(variables('factoryId'), '/datasets/DB_SQL_SINK')]",
+				"[concat(variables('factoryId'), '/linkedServices/leonprimetarget')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_incremental_multiple_copy')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "lp_config_table",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "AzureSqlTable2",
+								"referenceName": "DB_SQL_config",
 								"type": "DatasetReference",
 								"parameters": {}
 							},
@@ -3282,11 +3579,11 @@
 						}
 					},
 					{
-						"name": "move_each_data_from_source",
+						"name": "ForEach_config_entry",
 						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "data_of_source_table",
+								"activity": "lp_config_table",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -3295,62 +3592,33 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('data_of_source_table').output.value",
+								"value": "@activity('lp_config_table').output.value",
 								"type": "Expression"
 							},
 							"isSequential": true,
 							"activities": [
 								{
-									"name": "perform_fullload_incremental",
-									"type": "Copy",
+									"name": "Execute Pl_inc_copy",
+									"type": "ExecutePipeline",
 									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
 									"userProperties": [],
 									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"sqlReaderQuery": {
-												"value": "select * from sagar.getallusers_target where LastLogin>(\nselect isnull(max(LastLogin),'2020-01-01') from sagar.getallusers)",
+										"pipeline": {
+											"referenceName": "pl_inc_copy",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Tablename": {
+												"value": "@item().tablename",
 												"type": "Expression"
 											},
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "AzureSqlSink",
-											"writeBehavior": "insert",
-											"sqlWriterUseTableLock": false
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
+											"WaterMarkColumn": {
+												"value": "@item().watermarkvalue",
+												"type": "Expression"
 											}
 										}
-									},
-									"inputs": [
-										{
-											"referenceName": "copy_apidata_target",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "copy_to_target_apidata",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									]
+									}
 								}
 							]
 						}
@@ -3363,23 +3631,19 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/RestResource3')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]",
-				"[concat(variables('factoryId'), '/linkedServices/mysqlstorage')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable2')]",
-				"[concat(variables('factoryId'), '/datasets/copy_apidata_target')]",
-				"[concat(variables('factoryId'), '/datasets/copy_to_target_apidata')]"
+				"[concat(variables('factoryId'), '/datasets/DB_SQL_config')]",
+				"[concat(variables('factoryId'), '/pipelines/pl_inc_copy')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/rest_api_task')]",
+			"name": "[concat(parameters('factoryName'), '/practice')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Web1",
-						"type": "WebActivity",
+						"name": "Stored procedure1",
+						"type": "SqlServerStoredProcedure",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -3390,136 +3654,21 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://reqres.in/api/users",
-							"method": "GET",
-							"headers": {}
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Web1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@range(1,activity('Web1').output.total_pages)",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Copy data1",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "RestSource",
-											"httpRequestTimeout": "00:01:40",
-											"requestInterval": "00.00:00:00.010",
-											"requestMethod": "GET",
-											"paginationRules": {
-												"supportRFC5988": "true"
-											}
-										},
-										"sink": {
-											"type": "AzureSqlSink",
-											"writeBehavior": "insert",
-											"sqlWriterUseTableLock": false
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"mappings": [
-												{
-													"source": {
-														"path": "[['id']"
-													},
-													"sink": {
-														"name": "id",
-														"type": "Int64"
-													}
-												},
-												{
-													"source": {
-														"path": "[['email']"
-													},
-													"sink": {
-														"name": "email",
-														"type": "String"
-													}
-												},
-												{
-													"source": {
-														"path": "[['first_name']"
-													},
-													"sink": {
-														"name": "first_name",
-														"type": "String"
-													}
-												},
-												{
-													"source": {
-														"path": "[['last_name']"
-													},
-													"sink": {
-														"name": "last_name",
-														"type": "String"
-													}
-												},
-												{
-													"source": {
-														"path": "[['avatar']"
-													},
-													"sink": {
-														"name": "avatar",
-														"type": "String"
-													}
-												}
-											],
-											"collectionReference": "$['data']"
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "RestResource1",
-											"type": "DatasetReference",
-											"parameters": {
-												"pagequery": {
-													"value": "?page=@{item()}",
-													"type": "Expression"
-												}
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "apitable",
-											"type": "DatasetReference",
-											"parameters": {
-												"tableapi": {
-													"value": "apitable@{item()}",
-													"type": "Expression"
-												}
-											}
-										}
-									]
+							"storedProcedureName": "[[dbo].[check_schema_drift]",
+							"storedProcedureParameters": {
+								"source_table_name": {
+									"value": "dbo.table1",
+									"type": "String"
+								},
+								"target_table_name": {
+									"value": "dbo.table2",
+									"type": "String"
 								}
-							]
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "MYSQLSSMS",
+							"type": "LinkedServiceReference"
 						}
 					}
 				],
@@ -3527,12 +3676,10 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
-				"annotations": [],
-				"lastPublishTime": "2023-03-30T20:09:14Z"
+				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
-				"[concat(variables('factoryId'), '/datasets/apitable')]"
+				"[concat(variables('factoryId'), '/linkedServices/MYSQLSSMS')]"
 			]
 		},
 		{
@@ -3822,6 +3969,188 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/CFG_DATA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SSMS_STUDENT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "config"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SSMS_STUDENT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DB_SQL_SINK')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "leonprimetarget",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"tablename": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PurchaseID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ProductName",
+						"type": "varchar"
+					},
+					{
+						"name": "Price",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 2
+					},
+					{
+						"name": "PurchaseDate",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": {
+						"value": "@dataset().tablename",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/leonprimetarget')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DB_SQL_config')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "leonprimetarget",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "tablename",
+						"type": "varchar"
+					},
+					{
+						"name": "watermarkvalue",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "configtable"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/leonprimetarget')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_SOURCE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lsonprimesource",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PurchaseID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ProductName",
+						"type": "varchar"
+					},
+					{
+						"name": "Price",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 2
+					},
+					{
+						"name": "PurchaseDate",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Purchase"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsonprimesource')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_target')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "leonprimetarget",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PurchaseID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ProductName",
+						"type": "varchar"
+					},
+					{
+						"name": "Price",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 2
+					},
+					{
+						"name": "PurchaseDate",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "watermark"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/leonprimetarget')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/FirstCSVDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3919,6 +4248,24 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Full_SqlServerTable_source')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lsonprimesource",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsonprimesource')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Json_input')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3961,11 +4308,8 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "RestService1",
-					"type": "LinkedServiceReference",
-					"parameters": {
-						"apiurl": "https://reqres.in/api/users"
-					}
+					"referenceName": "RestService2",
+					"type": "LinkedServiceReference"
 				},
 				"parameters": {
 					"pagequery": {
@@ -3983,7 +4327,7 @@
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/RestService1')]"
+				"[concat(variables('factoryId'), '/linkedServices/RestService2')]"
 			]
 		},
 		{
@@ -3992,11 +4336,8 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "RestService1",
-					"type": "LinkedServiceReference",
-					"parameters": {
-						"apiurl": "https://api.github.com/users/hadley/orgs"
-					}
+					"referenceName": "RestService2",
+					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
 				"type": "RestResource",
@@ -4006,7 +4347,7 @@
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/RestService1')]"
+				"[concat(variables('factoryId'), '/linkedServices/RestService2')]"
 			]
 		},
 		{
@@ -4073,6 +4414,66 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/myblobstorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable_full_student')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SSMS_STUDENT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Customer"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SSMS_STUDENT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable_fullstudent')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SSMS_STUDENT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Customer"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SSMS_STUDENT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable_source')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lsonprimesource",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsonprimesource')]"
 			]
 		},
 		{
@@ -5219,26 +5620,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/RestService1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"parameters": {
-					"apiurl": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "RestService",
-				"typeProperties": {
-					"url": "[parameters('RestService1_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/RestService2')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -5264,6 +5645,25 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SSMS_STUDENT')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SSMS_STUDENT_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "SSMS",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SSMS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/azuresqllink')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -5275,6 +5675,44 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/leonprimetarget')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('leonprimetarget_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "SSMS",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SSMS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/lsonprimesource')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('lsonprimesource_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "SSMS",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SSMS')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/myblobstorage')]",
@@ -5299,6 +5737,16 @@
 				"typeProperties": {
 					"connectionString": "[parameters('mysqlstorage_connectionString')]"
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ONPREMISES')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
 			},
 			"dependsOn": []
 		},

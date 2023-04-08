@@ -11,9 +11,21 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'MYSQLSSMS'"
 		},
+		"SSMS_STUDENT_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SSMS_STUDENT'"
+		},
 		"azuresqllink_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'azuresqllink'"
+		},
+		"leonprimetarget_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'leonprimetarget'"
+		},
+		"lsonprimesource_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'lsonprimesource'"
 		},
 		"myblobstorage_connectionString": {
 			"type": "secureString",
@@ -22,10 +34,6 @@
 		"mysqlstorage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'mysqlstorage'"
-		},
-		"RestService1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "@{linkedService().apiurl}"
 		},
 		"RestService2_properties_typeProperties_url": {
 			"type": "string",
@@ -66,9 +74,6 @@
 					},
 					"mysqlstorage_connectionString": {
 						"value": "[parameters('mysqlstorage_connectionString')]"
-					},
-					"RestService1_properties_typeProperties_url": {
-						"value": "[parameters('RestService1_properties_typeProperties_url')]"
 					},
 					"RestService2_properties_typeProperties_url": {
 						"value": "[parameters('RestService2_properties_typeProperties_url')]"
@@ -113,6 +118,15 @@
 					},
 					"MYSQLSSMS_connectionString": {
 						"value": "[parameters('MYSQLSSMS_connectionString')]"
+					},
+					"SSMS_STUDENT_connectionString": {
+						"value": "[parameters('SSMS_STUDENT_connectionString')]"
+					},
+					"leonprimetarget_connectionString": {
+						"value": "[parameters('leonprimetarget_connectionString')]"
+					},
+					"lsonprimesource_connectionString": {
+						"value": "[parameters('lsonprimesource_connectionString')]"
 					}
 				}
 			},
@@ -138,6 +152,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'datafactorytrainer_ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "datafactorytrainer_ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'datafactorytrainer_ArmTemplate_3')]"
 			]
 		}
 	]
