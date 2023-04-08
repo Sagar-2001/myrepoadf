@@ -1,6 +1,10 @@
 {
 	"name": "RestResource1",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestService2",
+			"type": "LinkedServiceReference"
+		},
 		"parameters": {
 			"pagequery": {
 				"type": "string"
